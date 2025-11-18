@@ -1,12 +1,12 @@
 # main 
-POS_X = -5
-POS_Y = 20
-LEN_E = 100
-LEN_B = 100
+POS_X = -50
+POS_Y = 140
+LEN_E = 155
+LEN_B = 155
 
 # adc reader
-PAGE_LEN = [0, 40]
-PAGE_WID = [0, 20]
+PAGE_LEN = [0, 300]
+PAGE_WID = [-50, 250]
 
 # pwm controller  
 FREQ = 50          # fréquence PWM en Hz (20 ms période)

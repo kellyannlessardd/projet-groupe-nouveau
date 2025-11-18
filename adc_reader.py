@@ -12,20 +12,31 @@ pen_state = False
 # Conserver la dernière valeur lue pour détecter les fronts (0 -> 1)
 last_switch_value = switch.value()  # lire l'état réel au démarrage
 
+# Add these at module level
+prev_x = None
+prev_y = None
+alpha = 1  # smoothing factor (0.0 = no smoothing, 1.0 = instant change)
 
 def read_potentiometers():
-    """
-    Lit les deux potentiomètres X et Y.
-    Retourne (x, y) mis à l'échelle.
-    """
-    x = pot_x.read_u16()
-    y = pot_y.read_u16()
+    global prev_x, prev_y
+    raw_x = pot_x.read_u16()
+    raw_y = pot_y.read_u16()
 
-    # Mise à l'échelle linéaire depuis [0, 65535] vers [min, max]
-    scaled_x = x * (PAGE_WID[1] - PAGE_WID[0]) / 65535 + PAGE_WID[0]
-    scaled_y = y * (PAGE_LEN[1] - PAGE_LEN[0]) / 65535 + PAGE_LEN[0]
+    scaled_x = raw_x * (PAGE_WID[1] - PAGE_WID[0]) / 65535 + PAGE_WID[0]
+    scaled_y = raw_y * (PAGE_LEN[1] - PAGE_LEN[0]) / 65535 + PAGE_LEN[0]
 
-    return scaled_x, scaled_y
+    if prev_x is None:
+        prev_x = scaled_x
+        prev_y = scaled_y
+
+    # Apply exponential smoothing
+    smoothed_x = alpha * scaled_x + (1 - alpha) * prev_x
+    smoothed_y = alpha * scaled_y + (1 - alpha) * prev_y
+
+    prev_x = smoothed_x
+    prev_y = smoothed_y
+
+    return smoothed_x, smoothed_y
 
 
 def read_switch():
