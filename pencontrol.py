@@ -21,10 +21,10 @@ def traduit(angle: float) -> int:
     return int(z)
 
 def set_pen_state(state):
-    if state == "down":
+    if state == True:
         Servo_stylo.duty_u16(traduit(0))  # Position for pen down
-    elif state == "up":
+    elif state == False:
         Servo_stylo.duty_u16(traduit(30))  # Position for pen up
     else:
-        raise ValueError("Invalid state. Use 'up' or 'down'.")
+        raise ValueError("Invalid state. Use True or False.")
 

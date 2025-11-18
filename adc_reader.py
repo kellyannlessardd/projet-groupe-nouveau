@@ -1,7 +1,10 @@
 from machine import ADC, Pin
+import time
 
-pot_x = ADC(26)
-pot_y = ADC(27)
+PAGE_LEN = [-40, 40]
+PAGE_WID = [0, 20]
+pot_x = ADC(Pin(27))
+pot_y = ADC(Pin(26))
 
 switch = Pin(16, Pin.IN, Pin.PULL_UP)
 
@@ -17,7 +20,9 @@ def read_potentiometers():
     """
     x = pot_x.read_u16()
     y = pot_y.read_u16()
-    return x, y
+    scaled_x = (x/65535)*(PAGE_WID[1]-PAGE_WID[0]) - PAGE_WID[0]
+    scaled_y = (y/65535)*abs((PAGE_LEN[1]-PAGE_LEN[0])) + PAGE_LEN[0]
+    return scaled_x, scaled_y
 
 
 def read_switch():
@@ -38,3 +43,7 @@ def read_switch():
 
     return pen_state
 
+if __name__ == "__main__":
+    while True:
+        print(read_potentiometers())
+        time.sleep(2)
