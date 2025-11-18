@@ -1,7 +1,7 @@
 from machine import ADC, Pin
 import time
 
-PAGE_LEN = [-40, 40]
+PAGE_LEN = [0, 40]
 PAGE_WID = [0, 20]
 
 pot_x = ADC(Pin(27))
@@ -49,3 +49,4 @@ def read_switch():
     # Mémoriser la lecture courante pour la prochaine détection de front
     last_switch_value = current
     return pen_state
+
