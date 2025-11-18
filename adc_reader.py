@@ -1,8 +1,6 @@
 from machine import ADC, Pin
 import time
-
-PAGE_LEN = [0, 40]
-PAGE_WID = [0, 20]
+from Global_Variables import PAGE_LEN, PAGE_WID
 
 pot_x = ADC(Pin(27))
 pot_y = ADC(Pin(26))

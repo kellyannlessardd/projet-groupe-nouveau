@@ -1,13 +1,6 @@
 # pwm_controller.py
 from machine import Pin, PWM
-
-# Constantes pour les servos
-FREQ = 50          # fréquence PWM en Hz (20 ms période)
-MIN_US = 500       # largeur impulsion min (0°)
-MAX_US = 2500      # largeur impulsion max (180°)
-PERIOD_US = 20000  # période en microsecondes (1/50 Hz)
-
-pins = { "shoulder": 15, "elbow": 16, "pen": 17 }
+from Global_Variables import FREQ, MIN_US, MAX_US, PERIOD_US
 
 class PWMController:
     def __init__(self, pins):
@@ -33,7 +26,3 @@ class PWMController:
         duty = self.angle_to_duty(angle)
         self.servos[servo_name].duty_u16(duty)
 
-if __name__ == "__main__":
-    pwm_controller = PWMController(pins)
-    # Exemple : positionner le servo de l'épaule à 90 degrés
-    pwm_controller.set_angle("shoulder", 90)
