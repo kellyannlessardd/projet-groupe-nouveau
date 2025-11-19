@@ -1,6 +1,6 @@
 from machine import Pin, PWM
 
-Servo_stylo = PWM(Pin(0))
+Servo_stylo = PWM(Pin(2))
 Servo_stylo.freq(50)
 
 def traduit(angle: float) -> int:

@@ -6,7 +6,7 @@ from inverse_kinematics import cinematique_inverse
 from pwm_controllergroupe import PWMController
 from Global_Variables import POS_X, POS_Y, LEN_E, LEN_B
 
-pins = { "shoulder": 1, "elbow": 2 }
+pins = { "shoulder": 0, "elbow": 1 }
 pwm_controller = PWMController(pins)
 
 def main(pwm_controller):
