@@ -28,3 +28,8 @@ def set_pen_state(state):
     else:
         raise ValueError("Invalid state. Use True or False.")
 
+def auto_state_update(inst):
+    if inst == "M3":
+        Servo_stylo.duty_u16(traduit(0))
+    elif inst == "M5":
+        Servo_stylo.duty_u16(traduit(30))

@@ -15,7 +15,7 @@ last_switch_value = switch.value()  # lire l'état réel au démarrage
 # Add these at module level
 prev_x = None
 prev_y = None
-alpha = 1  # smoothing factor (0.0 = no smoothing, 1.0 = instant change)
+alpha = 0.2  # smoothing factor (0.0 = no smoothing, 1.0 = instant change)
 
 def read_potentiometers():
     global prev_x, prev_y
