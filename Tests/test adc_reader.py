@@ -1,46 +1,80 @@
+import unittest
+from unittest.mock import patch
 import adc_reader
-# Test 1 : Scaling des potentiomètres
-
-def test_read_potentiometers():
-    #Simule des valeurs de l'ADC
-    adc_reader.pot_x.read_u16 = lambda: 32767   #+-50%
-    adc_reader.pot_y.read_u16 = lambda: 65535   # max
-
-    x, y = adc_reader.read_potentiometers()
-
-    print("Test potentiomètres :")
-    print("X =", x, "(attendu ~10)")
-    print("Y =", y, "(attendu ~40)")
-    print()
 
 
-# Test 2 : Basculer le switch
-def test_read_switch():
-    print("Test switch :")
+class TestADCReader(unittest.TestCase):
+    """
+    Tests unitaires pour les fonctions du module adc_reader.
+    Les objets matériels (ADC, Pin) sont simulés grâce à unittest.mock.
+    """
 
-    # Cas 0 -> 1 : doit basculer
-    adc_reader.switch.value = lambda: 0
-    adc_reader.last_switch_value = 0
-    adc_reader.pen_state = False
+    @patch("adc_reader.pot_x")
+    @patch("adc_reader.pot_y")
+    def test_read_potentiometers(self, mock_pot_y, mock_pot_x):
+        """
+        Vérifie que les valeurs lues par l'ADC sont correctement mises à l'échelle.
+        """
+        # Valeurs simulées
+        mock_pot_x.read_u16.return_value = 32767   # ~50%
+        mock_pot_y.read_u16.return_value = 65535   # max
 
-    adc_reader.switch.value = lambda: 1
-    r = adc_reader.read_switch()
-    print("0 -> 1, attendu True, obtenu :", r)
+        # Appel de la fonction
+        x, y = adc_reader.read_potentiometers()
 
-    # Cas 1 -> 1 : rien ne change
-    adc_reader.switch.value = lambda: 1
-    r = adc_reader.read_switch()
-    print("1 -> 1, attendu True, obtenu :", r)
+        # X doit être proche de 10
+        self.assertAlmostEqual(x, 10, delta=0.5)
 
-    # Cas 1 -> 0 : rien ne change
-    adc_reader.switch.value = lambda: 0
-    r = adc_reader.read_switch()
-    print("1 -> 0, attendu True, obtenu :", r)
+        # Y doit être proche de 40
+        self.assertAlmostEqual(y, 40, delta=0.5)
 
-    print()
+    @patch("adc_reader.switch")
+    @patch("adc_reader.time.sleep_ms")
+    def test_read_switch_toggle(self, mock_sleep, mock_switch):
+        """
+        Vérifie qu’un front montant (0→1) bascule l'état du stylo.
+        """
+        mock_switch.value.side_effect = [0, 1]
+        adc_reader.pen_state = False
+        adc_reader.last_switch_value = 0
+
+        result = adc_reader.read_switch()
+
+        self.assertTrue(result)
+
+    @patch("adc_reader.switch")
+    @patch("adc_reader.time.sleep_ms")
+    def test_read_switch_no_toggle(self, mock_sleep, mock_switch):
+        """
+        Si la valeur reste à 1, il ne doit pas y avoir de basculement.
+        """
+        mock_switch.value.return_value = 1
+        adc_reader.pen_state = True
+        adc_reader.last_switch_value = 1
+
+        result = adc_reader.read_switch()
+
+        self.assertTrue(result)
+
+    @patch("adc_reader.switch")
+    @patch("adc_reader.time.sleep_ms")
+    def test_read_switch_multiple_sequence(self, mock_sleep, mock_switch):
+        """
+        Teste une séquence : 0→1 (toggle), 1→0 (rien), 0→1 (toggle)
+        """
+        mock_switch.value.side_effect = [0, 1, 0, 1]
+
+        adc_reader.pen_state = False
+        adc_reader.last_switch_value = 0
+
+        r1 = adc_reader.read_switch()   # 0→1 toggle → True
+        r2 = adc_reader.read_switch()   # 1→0 rien → True
+        r3 = adc_reader.read_switch()   # 0→1 toggle → False
+
+        self.assertTrue(r1)
+        self.assertTrue(r2)
+        self.assertFalse(r3)
 
 
-
-# Lancer les tests
-test_read_potentiometers()
-test_read_switch()
+if __name__ == "__main__":
+    unittest.main()
