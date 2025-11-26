@@ -1,4 +1,4 @@
-from pwm_controllergroupe import PWMController
+from main.pwm_controllergroupe import PWMController
 import unittest
 
 

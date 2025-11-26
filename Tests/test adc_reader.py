@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-import adc_reader
+import main.adc_reader as adc_reader
 
 
 class TestADCReader(unittest.TestCase):
