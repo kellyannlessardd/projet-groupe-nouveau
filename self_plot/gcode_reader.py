@@ -6,3 +6,9 @@ def read_file(file_name):
         file_instructions[i] = file_instructions[i].split()
 
     return file_instructions
+
+if __name__ == "__main__":
+    print(read_file("circle.gcode"), "\n")
+    print(read_file("line.gcode"), "\n")
+    print(read_file("square.gcode"), "\n")
+    print(read_file("circle_and_square.gcode"), "\n")
