@@ -66,6 +66,6 @@ def beauty(out_rayon, out_step, in_rayon = 10, in_step = 1, cx_in = POS_X, cy_ou
 
         
 if __name__ == "__main__":
-    beauty(50, 0.1, 50, 10, 150, 140)
+    beauty(50, 0.1, 50, 10, 130, 140)
     plot()
 
