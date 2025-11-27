@@ -49,9 +49,9 @@ def circle_gcode_generator(Cx=50, Cy=140, rayon=10, step=1):
     return liste_coordonnes, liste_angles
 
 
-def beauty(out_rayon, out_step, in_rayon = 10, in_step = 1, cx_in = POS_X, cy_out = POS_Y):
+def beauty(filename, out_rayon, out_step, in_rayon = 10, in_step = 1, cx_in = POS_X, cy_out = POS_Y):
     liste_coordonnes = circle_gcode_generator(Cx=cx_in, Cy=cy_out, rayon=in_rayon, step=in_step)[0]
-    f = open("circle_new.gcode", 'w')
+    f = open(filename, 'w')
     for i in liste_coordonnes:
         angles = circle_gcode_generator(i[0], i[1], out_rayon, out_step)[1]
         f.write(f"M3\n")
@@ -66,6 +66,6 @@ def beauty(out_rayon, out_step, in_rayon = 10, in_step = 1, cx_in = POS_X, cy_ou
 
         
 if __name__ == "__main__":
-    beauty(50, 0.1, 50, 10, 130, 140)
+    beauty("self_plot.gcode", 50, 0.1, 50, 10, 130, 140)
     plot()
 
