@@ -5,7 +5,7 @@ from pencontrol import set_pen_state, auto_state_update
 from inverse_kinematics import cinematique_inverse
 from pwm_controllergroupe import PWMController
 from Global_Variables import POS_X, POS_Y, LEN_E, LEN_B
-from self_plot.gcode_reader import read_file
+from gcode_reader import read_file
 
 pins = { "shoulder": 0, "elbow": 1 }
 pwm_controller = PWMController(pins)
@@ -14,7 +14,7 @@ def main(pwm_controller):
     while True:
         x, y = read_potentiometers()
         set_pen_state(read_switch())
-        alpha, beta = cinematique_inverse(POS_X, POS_Y, 0, 0, LEN_E, LEN_B)
+        alpha, beta = cinematique_inverse(POS_X, POS_Y, x, y, LEN_E, LEN_B)
         pwm_controller.set_angle("shoulder", alpha)
         pwm_controller.set_angle("elbow", beta)
         time.sleep(0.05)

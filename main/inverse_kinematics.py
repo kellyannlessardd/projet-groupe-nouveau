@@ -25,21 +25,22 @@ def cinematique_inverse(Ax, Ay, Cx, Cy, La, Lb):
     return alpha + 47, beta -35  # ajustements mécaniques
 
 
-def cinematique_inverse2(Ax, Ay, Cx, Cy, La, Lb, elbow="down"):
+def cinematique_inverse2(Ax, Ay, Cx, Cy, La, Lb):
     # Vector from base A to target C
     dx = Cx - Ax
     dy = Cy - Ay
-    r2 = dx*dx + dy*dy
+    r2 = dx**2 + dy**2
     r  = math.sqrt(r2)
 
     # Reachability check (don’t “lie” with clamp when outside workspace)
-    if r2 > La**2 + Lb**2 or r == 0:
+    if r > La + Lb or r < abs(La - Lb) or r == 0:
+        print(r, La, Lb)
         raise ValueError("Target unreachable (or r==0).")
 
     # Elbow angle q2 (relative joint angle)
     cos_q2 = clamp((r2 - La*La - Lb*Lb) / (2.0 * La * Lb))
     sin_q2_mag = math.sqrt(max(0.0, 1.0 - cos_q2*cos_q2))
-    sin_q2 = -sin_q2_mag if elbow == "down" else sin_q2_mag
+    sin_q2 = -sin_q2_mag
     q2 = math.atan2(sin_q2, cos_q2)
 
     # Shoulder angle q1
