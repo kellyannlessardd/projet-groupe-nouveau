@@ -1,6 +1,3 @@
-# Fais par david 
-# Aide de l"IA pour les tests unitaires
-from pwm_controllergroupe import MIN_US, MAX_US, PERIOD_US, FREQ
 from pwm_controllergroupe import PWMController
 import unittest
 

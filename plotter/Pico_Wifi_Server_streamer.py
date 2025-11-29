@@ -5,9 +5,9 @@ import ujson
 import os
 import random
 
-from adc_reader import read_potentiometers, read_switch
-from inverse_kinematics import cinematique_inverse
-from Global_Variables import POS_X, POS_Y, LEN_E, LEN_B
+from main.adc_reader import read_potentiometers, read_switch
+from main.inverse_kinematics import cinematique_inverse
+from main.Global_Variables import POS_X, POS_Y, LEN_E, LEN_B
 
 # ---------- CONFIG ----------
 PORT = 8765

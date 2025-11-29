@@ -1,0 +1,3 @@
+self_plot.gcode
+main/plot_figure.py
+main/__pycache__/

@@ -24,7 +24,12 @@ def set_pen_state(state):
     if state == True:
         Servo_stylo.duty_u16(traduit(0))  # Position for pen down
     elif state == False:
-        Servo_stylo.duty_u16(traduit(30))  # Position for pen up
+        Servo_stylo.duty_u16(traduit(10))  # Position for pen up
     else:
         raise ValueError("Invalid state. Use True or False.")
 
+def auto_state_update(inst):
+    if inst == "M5":
+        Servo_stylo.duty_u16(traduit(0))
+    elif inst == "M3":
+        Servo_stylo.duty_u16(traduit(10))
