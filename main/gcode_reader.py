@@ -64,7 +64,7 @@ def circles(filename, out_rayon, out_step, in_rayon = 10, in_step = 1, cx_in = P
     f.close()
 
 
-def square_generator(Cx, Cy, r, theta):
+def square_generator(Cx, Cy, r, theta, step):
     def prime(x, y, Cx, Cy, theta):
         x_prime = Cx + (x-Cx)*math.cos(math.radians(theta))  - (y - Cy)*math.sin(math.radians(theta))
         y_prime = Cy + (x-Cx)*math.sin(math.radians(theta))  + (y - Cy)*math.cos(math.radians(theta))
@@ -80,22 +80,25 @@ def square_generator(Cx, Cy, r, theta):
     # Ligne vertical gauche
     while y >= Cy - r:
         liste_coordonees.append(prime(x, y, Cx, Cy, theta))
-        y -= 0.1
+        y -= step
 
     # Ligne horizontal basse
+    y = Cy - r
     while x <= Cx + r:
         liste_coordonees.append(prime(x, y, Cx, Cy, theta))
-        x += 0.1
+        x += step
 
     # Ligne vertical droite
+    x = Cx + r
     while y <= Cy + r: 
         liste_coordonees.append(prime(x, y, Cx, Cy, theta))
-        y += 0.1
+        y += step
 
     # Ligne horizontal haute
+    y = Cy + r
     while x >= Cx - r: 
         liste_coordonees.append(prime(x, y, Cx, Cy, theta))
-        x -= 0.1
+        x -= step
     
     for element in liste_coordonees: 
         alpha, beta = cinematique_inverse2(POS_X, POS_Y, element[0], element[1], LEN_B, LEN_E)
@@ -103,10 +106,10 @@ def square_generator(Cx, Cy, r, theta):
 
     return liste_angles
 
-def squares(filename, Cx, Cy, r):
+def squares(filename, Cx, Cy, r, step):
     f = open(filename, 'w')
     for theta in range(0, 90, 5):
-        angles = square_generator(Cx, Cy, r, theta)
+        angles = square_generator(Cx, Cy, r, theta, step)
         f.write(f"M3\n")
         f.write(f"G1 S{angles[0][0]} E{angles[0][1]} \n")
         f.write(f"M5\n")
@@ -116,8 +119,8 @@ def squares(filename, Cx, Cy, r):
     f.close()
         
 if __name__ == "__main__":
-    circles("self_plot.gcode", 50, 0.1, 50, 5, 100, 140)
+    circles("self_plot.gcode", 50, 1, 50, 5, 100, 140)
     plot("self_plot.gcode")
-    squares("self_plot.gcode", 50, 100, 10)
+    squares("self_plot.gcode", 50, 100, 10, 2)
     plot("self_plot.gcode")
 

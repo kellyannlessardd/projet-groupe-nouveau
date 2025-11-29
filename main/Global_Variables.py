@@ -3,6 +3,7 @@ POS_X = -50
 POS_Y = 140
 LEN_E = 155
 LEN_B = 155
+SPEED = 0.5
 
 # adc reader
 PAGE_LEN = [0, 300]
