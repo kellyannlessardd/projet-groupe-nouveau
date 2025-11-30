@@ -27,7 +27,7 @@ def self_plotter(file_name, fn, pwm_controller):
         squares(file_name, 50, 100, 10)
 
     plot_info = read_file(file_name)
-
+    print("Plotting...")
     for inst in plot_info:
         if inst[0] in ["M3", "M5"]:
             auto_state_update(inst[0])
