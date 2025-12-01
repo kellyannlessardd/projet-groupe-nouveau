@@ -1,5 +1,7 @@
 from machine import ADC, Pin
 import time
+import socket
+import network
 from adc_reader import read_potentiometers, read_switch
 from pencontrol import set_pen_state, auto_state_update
 from inverse_kinematics import cinematique_inverse
@@ -9,6 +11,7 @@ from gcode_reader import read_file, circles, squares
 
 pins = { "shoulder": 0, "elbow": 1 }
 pwm_controller = PWMController(pins)
+
 
 def main(pwm_controller):
     print("Amusez vous bien!")
@@ -55,5 +58,19 @@ def menu():
 
 
 if __name__ == "__main__":
+    nom_wifi = "PicoW_DaBe"
+    mot_de_passe = "123456789"
+
+    # creation et configuration du reseau wifi: ap
+    ap = network.WLAN(network.AP_IF)
+    ap.config(essid=nom_wifi, password=mot_de_passe)
+    ap.active(True)
+
+    while not ap.active():
+        pass
+
+    # affiche les information du reseau
+    print("Point d'accès actif")
+    print(ap.ifconfig()) 
     menu()
     
