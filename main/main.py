@@ -23,7 +23,7 @@ def main(pwm_controller):
 def self_plotter(file_name, pwm_controller):
 
     plot_info = read_file(file_name)
-
+    print("Drawing...")
     for inst in plot_info:
         if inst[0] in ["M3", "M5"]:
             auto_state_update(inst[0])
@@ -32,8 +32,8 @@ def self_plotter(file_name, pwm_controller):
             pwm_controller.set_angle("shoulder", float(inst[1][1:]))
             time.sleep(SPEED)
             pwm_controller.set_angle("elbow", float(inst[2][1:]))
-        elif inst[0] == "M18":
-            print("Fin du programe... ")
+        
+    print("Fin du programme...")
 
 
 def menu():
