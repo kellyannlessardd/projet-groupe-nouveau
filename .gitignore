@@ -1,4 +1,5 @@
 square.gcode
+self_plotter.gcode
 cercle.gcode
 main/plot_figure.py
 main/__pycache__/

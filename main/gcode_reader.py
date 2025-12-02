@@ -117,10 +117,3 @@ def squares(filename, Cx, Cy, r, step):
             f.write(f"G1 S{i[0]} E{i[1]} \n")
         f.write(f"M5\n")
     f.close()
-        
-if __name__ == "__main__":
-    circles("cercle.gcode", 50, 1, 50, 10, 125, 150)
-    plot("cercle.gcode")
-    squares("square.gcode", 100, 100, 50, 2)
-    plot("square.gcode")
-
