@@ -20,11 +20,7 @@ def main(pwm_controller):
         pwm_controller.set_angle("elbow", beta)
         time.sleep(SPEED)
 
-def self_plotter(file_name, fn, pwm_controller):
-    if fn == "cercle":
-        circles(file_name, 50, 1, 50, 5, 100, 140)
-    elif fn == "square":
-        squares(file_name, 50, 100, 10)
+def self_plotter(file_name, pwm_controller):
 
     plot_info = read_file(file_name)
 
@@ -41,17 +37,21 @@ def self_plotter(file_name, fn, pwm_controller):
 
 
 def menu():
-    choice = int(input("Que voulez vous faire? \n1. Controller les bras a l'aide de potentiometres \n2. Faire dessiner une figure par le brachiographe\n Veillez entrer le numbero de votre choix\n"))
-    if choice == 1:
-        main(pwm_controller)
-    elif choice == 2:
-        figure = int(input("Quelle figure voulez vous dessiner? \n1. Des cercles? ou\n2. Des carres?\n"))
-        if figure == 1: 
-            self_plotter("self_plot.gcode","cercle", pwm_controller)
-        elif figure == 2:
-            self_plotter("self_plot.gcode","square", pwm_controller)
-    else: 
-        print("Choix non reconnu")
+    choice = int(input("Que voulez vous faire? \n1. Controller les bras a l'aide de potentiometres \n2. Faire dessiner une figure par le brachiographe\n 'q' ou 'Q' pour quitter \nVeillez entrer le numbero de votre choix\n"))
+    while choice.lower() != 'q':
+        if choice == 1:
+            main(pwm_controller)
+        elif choice == 2:
+            figure = int(input("Quelle figure voulez vous dessiner? \n1. Des cercles? ou\n2. Des carres?\n"))
+            if figure == 1: 
+                self_plotter("cercle.gcode", pwm_controller)
+            elif figure == 2:
+                self_plotter("square.gcode", pwm_controller)
+        else: 
+            print("Choix non reconnu")
+        
+        choice = int(input("Que voulez vous faire? \n1. Controller les bras a l'aide de potentiometres \n2. Faire dessiner une figure par le brachiographe\n 'q' ou 'Q' pour quitter \nVeillez entrer le numbero de votre choix\n"))
+
 
 
 if __name__ == "__main__":
