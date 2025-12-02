@@ -119,8 +119,8 @@ def squares(filename, Cx, Cy, r, step):
     f.close()
         
 if __name__ == "__main__":
-    # circles("self_plot.gcode", 50, 1, 50, 10, 125, 150)
-    # plot("self_plot.gcode")
-    squares("self_plot.gcode", 50, 100, 10, 2)
-    plot("self_plot.gcode")
+    circles("cercle.gcode", 50, 1, 50, 10, 125, 150)
+    plot("cercle.gcode")
+    squares("square.gcode", 100, 100, 50, 2)
+    plot("square.gcode")
 
