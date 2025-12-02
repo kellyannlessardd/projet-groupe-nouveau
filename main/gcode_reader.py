@@ -1,4 +1,4 @@
-from inverse_kinematics import cinematique_inverse2
+from inverse_kinematics import cinematique_inverse
 from Global_Variables import POS_X, POS_Y, LEN_B, LEN_E
 from plot_figure import plot
 import math
@@ -43,7 +43,7 @@ def circle_generator(Cx=50, Cy=140, rayon=10, step=1):
         p -= step
 
     for element in liste_coordonnes:
-        alpha, beta = cinematique_inverse2(POS_X, POS_Y, element[0], element[1], LEN_B, LEN_E)
+        alpha, beta = cinematique_inverse(POS_X, POS_Y, element[0], element[1], LEN_B, LEN_E)
         liste_angles.append((alpha, beta))
 
     return liste_coordonnes, liste_angles
@@ -101,7 +101,7 @@ def square_generator(Cx, Cy, r, theta, step):
         x -= step
     
     for element in liste_coordonees: 
-        alpha, beta = cinematique_inverse2(POS_X, POS_Y, element[0], element[1], LEN_B, LEN_E)
+        alpha, beta = cinematique_inverse(POS_X, POS_Y, element[0], element[1], LEN_B, LEN_E)
         liste_angles.append((alpha, beta))
 
     return liste_angles
@@ -119,7 +119,7 @@ def squares(filename, Cx, Cy, r, step):
     f.close()
         
 if __name__ == "__main__":
-    circles("self_plot.gcode", 50, 1, 50, 5, 100, 140)
+    circles("self_plot.gcode", 50, 1, 50, 10, 125, 150)
     plot("self_plot.gcode")
     squares("self_plot.gcode", 50, 100, 10, 2)
     plot("self_plot.gcode")

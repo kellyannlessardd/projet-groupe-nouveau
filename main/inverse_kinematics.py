@@ -4,13 +4,13 @@ def clamp(x):
     return max(-1, min(1, x))
 
 def cinematique_inverse(Ax, Ay, Cx, Cy, La, Lb):
-    dx = Ax - Cx
-    dy = Ay - Cy
+    dx = Cx - Ax
+    dy = Cy - Ay
     r2 = dx*dx + dy*dy
     r  = math.sqrt(r2)
 
     cos_beta = (La**2 + Lb**2 - r2)/(2*La*Lb)
-    sin_beta = -1*math.sqrt(1-cos_beta**2)
+    sin_beta = math.sqrt(max(0,1-cos_beta**2))
     beta = math.degrees(math.atan2(sin_beta, cos_beta))
 
     sin_theta1 = (Lb*sin_beta)/r
@@ -20,7 +20,7 @@ def cinematique_inverse(Ax, Ay, Cx, Cy, La, Lb):
     theta2 = math.atan2(dy, dx)
 
     theta = theta2 - theta1
-    alpha = 90 - math.degrees(theta)
+    alpha = math.degrees(theta)
 
     return alpha + 47, beta -35  # ajustements mécaniques
 
@@ -38,9 +38,9 @@ def cinematique_inverse2(Ax, Ay, Cx, Cy, La, Lb):
         raise ValueError("Target unreachable (or r==0).")
 
     # Elbow angle q2 (relative joint angle)
-    cos_q2 = clamp((r2 - La*La - Lb*Lb) / (2.0 * La * Lb))
+    cos_q2 = clamp((La*La + Lb*Lb - r2) / (2*La*Lb))
     sin_q2_mag = math.sqrt(max(0.0, 1.0 - cos_q2*cos_q2))
-    sin_q2 = -sin_q2_mag
+    sin_q2 = sin_q2_mag
     q2 = math.atan2(sin_q2, cos_q2)
 
     # Shoulder angle q1

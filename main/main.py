@@ -22,7 +22,7 @@ def main(pwm_controller):
 
 def self_plotter(file_name, fn, pwm_controller):
     if fn == "cercle":
-        circles(file_name, 50, 0.1, 50, 5, 100, 140)
+        circles(file_name, 50, 1, 50, 5, 100, 140)
     elif fn == "square":
         squares(file_name, 50, 100, 10)
 
