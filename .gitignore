@@ -1,3 +1,4 @@
-self_plot.gcode
+square.gcode
+cercle.gcode
 main/plot_figure.py
 main/__pycache__/
