@@ -1,3 +1,21 @@
+"""
+Description du projet :
+Ce programme contrôle un brachiographe composé de deux servomoteurs (épaule, coude)
+et d’un servomoteur de stylo. Le système peut fonctionner en mode manuel via deux 
+potentiomètres ou en mode automatique à partir d’un fichier G-code. Les différents 
+modules gèrent respectivement la lecture du matériel (ADC + bouton), la cinématique 
+inverse, la génération du PWM, le contrôle du stylo et la lecture des fichiers G-code.
+
+Répartition des tâches :
+ - Artem Lavrynets : adc_reader
+ - AngeYvan Mugisha et David Berosy  : inverse_kinematics
+ - David Berosy  : main +gcode_reader (génération/lecture G-code)
+ - Kelly-Ann Lessard:pencontrol
+ - David Mufata :  pwm_controllergroupe
+Pourcentage d’aide IA utilisé : ~30 %
+"""
+
+
 from machine import ADC, Pin
 import time
 from adc_reader import read_potentiometers, read_switch
