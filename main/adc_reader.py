@@ -18,10 +18,17 @@ prev_y = None
 alpha = 0.2  # smoothing factor (0.0 = no smoothing, 1.0 = instant change)
 
 def read_potentiometers():
+    """
+    Lit les potentiomètres et retourne les coordonnées X, Y lissées.
+    
+    Returns:
+        tuple: Coordonnées (x, y) lissées dans les limites de la page
+    """
     global prev_x, prev_y
     raw_x = pot_x.read_u16()
     raw_y = pot_y.read_u16()
 
+    # Conversion de la valeur ADC (0-65535) vers les dimensions de la page
     scaled_x = raw_x * (PAGE_WID[1] - PAGE_WID[0]) / 65535 + PAGE_WID[0]
     scaled_y = raw_y * (PAGE_LEN[1] - PAGE_LEN[0]) / 65535 + PAGE_LEN[0]
 
@@ -29,7 +36,7 @@ def read_potentiometers():
         prev_x = scaled_x
         prev_y = scaled_y
 
-    # Apply exponential smoothing
+    # Lissage exponentiel pour réduire les fluctuations
     smoothed_x = alpha * scaled_x + (1 - alpha) * prev_x
     smoothed_y = alpha * scaled_y + (1 - alpha) * prev_y
 

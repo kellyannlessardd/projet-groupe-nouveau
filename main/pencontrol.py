@@ -21,15 +21,27 @@ def traduit(angle: float) -> int:
     return int(z)
 
 def set_pen_state(state):
+    """
+    Contrôle l'état du stylo (haut/bas).
+    
+    Args:
+        state: True pour stylo baissé, False pour stylo levé
+    """
     if state == True:
-        Servo_stylo.duty_u16(traduit(0))  # Position for pen down
+        Servo_stylo.duty_u16(traduit(0))  # Position stylo baissé
     elif state == False:
-        Servo_stylo.duty_u16(traduit(10))  # Position for pen up
+        Servo_stylo.duty_u16(traduit(10))  # Position stylo levé
     else:
         raise ValueError("Invalid state. Use True or False.")
 
 def auto_state_update(inst):
+    """
+    Met à jour l'état du stylo selon une instruction G-code.
+    
+    Args:
+        inst: Instruction G-code ("M5" pour baisser, "M3" pour lever)
+    """
     if inst == "M5":
-        Servo_stylo.duty_u16(traduit(0))
+        Servo_stylo.duty_u16(traduit(0))  # Stylo baissé
     elif inst == "M3":
-        Servo_stylo.duty_u16(traduit(10))
+        Servo_stylo.duty_u16(traduit(10))  # Stylo levé

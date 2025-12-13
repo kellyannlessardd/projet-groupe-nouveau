@@ -11,6 +11,12 @@ pins = { "shoulder": 0, "elbow": 1 }
 pwm_controller = PWMController(pins)
 
 def main(pwm_controller):
+    """
+    Contrôle le brachiographe en temps réel à l'aide de potentiomètres.
+    
+    Args:
+        pwm_controller: Contrôleur PWM pour gérer les angles des moteurs
+    """
     print("Amusez vous bien!")
     while True:
         x, y = read_potentiometers()
@@ -18,16 +24,24 @@ def main(pwm_controller):
         alpha, beta = cinematique_inverse(POS_X, POS_Y, x, y, LEN_E, LEN_B)
         pwm_controller.set_angle("shoulder", alpha)
         pwm_controller.set_angle("elbow", beta)
-        time.sleep(SPEED)
+        #time.sleep(SPEED)
 
 def self_plotter(file_name, pwm_controller):
-
+    """
+    Dessine une figure à partir d'un fichier G-code.
+    
+    Args:
+        file_name: Nom du fichier G-code à lire
+        pwm_controller: Contrôleur PWM pour gérer les angles des moteurs
+    """
     plot_info = read_file(file_name)
     print("Drawing...")
     for inst in plot_info:
+        # M3 = lever le stylo, M5 = baisser le stylo
         if inst[0] in ["M3", "M5"]:
             auto_state_update(inst[0])
             time.sleep(SPEED)
+        # G1 = mouvement linéaire avec angles alpha (inst[1]) et beta (inst[2])
         elif inst[0] == "G1":
             pwm_controller.set_angle("shoulder", float(inst[1][1:]))
             time.sleep(SPEED)
@@ -37,8 +51,11 @@ def self_plotter(file_name, pwm_controller):
 
 
 def menu():
-    choice = int(input("Que voulez vous faire? \n1. Controller les bras a l'aide de potentiometres \n2. Faire dessiner une figure par le brachiographe\n 'q' ou 'Q' pour quitter \nVeillez entrer le numbero de votre choix\n"))
-    while choice.lower() != 'q':
+    """
+    Affiche le menu principal et gère les interactions utilisateur.
+    """
+    choice = int(input("Que voulez vous faire? \n1. Controller les bras a l'aide de potentiometres \n2. Faire dessiner une figure par le brachiographe\n 0 pour quitter \nVeillez entrer le numbero de votre choix\n"))
+    while choice != 0:
         if choice == 1:
             main(pwm_controller)
         elif choice == 2:
